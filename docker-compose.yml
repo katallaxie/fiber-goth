@@ -8,6 +8,35 @@ services:
       POSTGRES_DB: example
     ports:
       - "5432:5432"
+    networks:
+      - keycloak-network
+
+  keycloak:
+    container_name: keycloak_app
+    image: quay.io/keycloak/keycloak:latest
+    restart: always
+    ports:
+      - "8443:8443"
+      - "8090:8080"
+    environment:
+      KEYCLOAK_ADMIN: example
+      KEYCLOAK_ADMIN_PASSWORD: example
+      KC_HOSTNAME: ${KEYCLOAK_URL}
+      KC_DB_URL: jdbc:postgresql://example:5432/keycloak
+      KC_DB: postgres
+      KC_DB_USERNAME:  example
+      KC_DB_PASSWORD: example
+    depends_on:
+      - keycloak_postgres
+    networks:
+      - keycloak-network
+    command:
+      - 'start-dev'
+
+networks:
+  default:
+    name: keycloak-network
+    driver: bridge
 
 volumes:
   postgres: {}
