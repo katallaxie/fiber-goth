@@ -18,7 +18,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
-	ll "github.com/katallaxie/pkg/logger"
+	"github.com/katallaxie/pkg/logx"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -77,7 +77,7 @@ func run(_ context.Context) error {
 	log.SetFlags(0)
 	log.SetOutput(os.Stderr)
 
-	ll.RedirectStdLog(ll.LogSink)
+	logx.RedirectStdLog(logx.LogSink)
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", cfg.Flags.DB.Host, cfg.Flags.DB.Username, cfg.Flags.DB.Password, cfg.Flags.DB.Database, cfg.Flags.DB.Port)
 	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
