@@ -50,14 +50,14 @@ var cfg = &Config{
 			Host:     "host.docker.internal",
 			Username: "example",
 			Password: "example",
-			Port:     5432,
+			Port:     5432, //nolint:mnd
 			Database: "example",
 		},
 	},
 }
 
 var rootCmd = &cobra.Command{
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(cmd *cobra.Command, _ []string) error {
 		return run(cmd.Context())
 	},
 }
@@ -77,7 +77,10 @@ func run(_ context.Context) error {
 	log.SetFlags(0)
 	log.SetOutput(os.Stderr)
 
-	logx.RedirectStdLog(logx.LogSink)
+	_, err := logx.RedirectStdLog(logx.LogSink)
+	if err != nil {
+		return err
+	}
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", cfg.Flags.DB.Host, cfg.Flags.DB.Username, cfg.Flags.DB.Password, cfg.Flags.DB.Database, cfg.Flags.DB.Port)
 	conn, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -98,7 +101,7 @@ func run(_ context.Context) error {
 		"entraid": "EntraID",
 		"github":  "Github",
 	}
-	var keys []string
+	keys := make([]string, 0, len(m))
 	for k := range m {
 		keys = append(keys, k)
 	}
@@ -134,7 +137,7 @@ func run(_ context.Context) error {
 	})
 
 	app.Get("/protected", func(c *fiber.Ctx) error {
-		t, err := csrf.CsrfTokenFromContext(c)
+		t, err := csrf.TokenFromContext(c)
 		if err != nil {
 			return err
 		}
@@ -169,8 +172,6 @@ func main() {
 	}
 }
 
-var helloTemplate = `<div>Hello World</div>`
-
 var indexTemplate = `{{range $key,$value:=.Providers}}
     <p><a href="/login/{{$value}}">Log in with {{index $.ProvidersMap $value}}</a></p>
 {{end}}
@@ -185,18 +186,4 @@ var indexTemplate = `{{range $key,$value:=.Providers}}
     <input type="submit" value="Submit">
   </form>
 </div>
-`
-
-var userTemplate = `
-<p><a href="/logout/{{.Provider}}">logout</a></p>
-<p>Name: {{.Name}} [{{.LastName}}, {{.FirstName}}]</p>
-<p>Email: {{.Email}}</p>
-<p>NickName: {{.NickName}}</p>
-<p>Location: {{.Location}}</p>
-<p>AvatarURL: {{.AvatarURL}} <img src="{{.AvatarURL}}"></p>
-<p>Description: {{.Description}}</p>
-<p>UserID: {{.UserID}}</p>
-<p>AccessToken: {{.AccessToken}}</p>
-<p>ExpiresAt: {{.ExpiresAt}}</p>
-<p>RefreshToken: {{.RefreshToken}}</p>
 `

@@ -10,12 +10,17 @@ import (
 	"github.com/katallaxie/fiber-goth/adapters"
 )
 
+const (
+	defaultTimeout             = 10 * time.Second
+	defaultMaxIdleConnsPerHost = 20
+)
+
 // DefaultClient is the default HTTP client used.
 var DefaultClient = &http.Client{
 	Transport: &http.Transport{
-		MaxIdleConnsPerHost: 20,
+		MaxIdleConnsPerHost: defaultMaxIdleConnsPerHost,
 	},
-	Timeout: 10 * time.Second,
+	Timeout: defaultTimeout,
 }
 
 // ErrUnimplemented is returned when a method is not implemented.
@@ -125,11 +130,11 @@ func (u *UnimplementedProvider) Debug(debug bool) {
 }
 
 // BeginAuth starts the authentication process.
-func (u *UnimplementedProvider) BeginAuth(_ context.Context, _ adapters.Adapter, state string, params AuthParams) (AuthIntent, error) {
+func (u *UnimplementedProvider) BeginAuth(_ context.Context, _ adapters.Adapter, _ string, _ AuthParams) (AuthIntent, error) {
 	return nil, ErrUnimplemented
 }
 
 // CompleteAuth completes the authentication process.
-func (u *UnimplementedProvider) CompleteAuth(_ context.Context, _ adapters.Adapter, params AuthParams) (adapters.GothUser, error) {
+func (u *UnimplementedProvider) CompleteAuth(_ context.Context, _ adapters.Adapter, _ AuthParams) (adapters.GothUser, error) {
 	return adapters.GothUser{}, ErrUnimplemented
 }

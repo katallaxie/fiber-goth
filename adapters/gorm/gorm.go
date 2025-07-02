@@ -1,4 +1,4 @@
-package gorm_adapter
+package adapters
 
 import (
 	"context"
@@ -30,7 +30,7 @@ type gormAdapter struct {
 }
 
 // New is a helper function to create a new adapter.
-func New(db *gorm.DB) *gormAdapter {
+func New(db *gorm.DB) adapters.Adapter {
 	return &gormAdapter{db: db}
 }
 
@@ -66,6 +66,8 @@ func (a *gormAdapter) GetUser(ctx context.Context, id uuid.UUID) (adapters.GothU
 	return user, nil
 }
 
+const defaultExpiry = 24 * time.Hour
+
 // CreateSession is a helper function to create a new session.
 func (a *gormAdapter) CreateSession(ctx context.Context, userID uuid.UUID, expires time.Time) (adapters.GothSession, error) {
 	session := adapters.GothSession{
@@ -73,8 +75,8 @@ func (a *gormAdapter) CreateSession(ctx context.Context, userID uuid.UUID, expir
 		SessionToken: uuid.NewString(),
 		ExpiresAt:    expires,
 		CsrfToken: adapters.GothCsrfToken{
-			Token:     uuid.NewString(),               // creates a token that is used to prevent CSRF attacks
-			ExpiresAt: time.Now().Add(24 * time.Hour), // expires in 24 hours
+			Token:     uuid.NewString(),              // creates a token that is used to prevent CSRF attacks
+			ExpiresAt: time.Now().Add(defaultExpiry), // expires in 24 hours
 		},
 	}
 

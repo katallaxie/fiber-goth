@@ -12,9 +12,9 @@ import (
 	"github.com/katallaxie/fiber-goth/providers"
 
 	"github.com/google/go-github/v56/github"
-	"github.com/zeiss/pkg/cast"
-	"github.com/zeiss/pkg/slices"
-	"github.com/zeiss/pkg/utilx"
+	"github.com/katallaxie/pkg/cast"
+	"github.com/katallaxie/pkg/slices"
+	"github.com/katallaxie/pkg/utilx"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/endpoints"
 )
@@ -74,7 +74,7 @@ func WithEnterpriseURL(url string) Opt {
 }
 
 // New creates a new GitHub provider.
-func New(clientKey, secret, callbackURL string, opts ...Opt) *githubProvider {
+func New(clientKey, secret, callbackURL string, opts ...Opt) providers.Provider {
 	p := &githubProvider{
 		id:            "github",
 		name:          "GitHub",
@@ -126,7 +126,7 @@ func (a *authIntent) GetAuthURL() (string, error) {
 }
 
 // BeginAuth starts the authentication process.
-func (g *githubProvider) BeginAuth(ctx context.Context, adapter adapters.Adapter, state string, _ providers.AuthParams) (providers.AuthIntent, error) {
+func (g *githubProvider) BeginAuth(_ context.Context, _ adapters.Adapter, state string, _ providers.AuthParams) (providers.AuthIntent, error) {
 	verifier := oauth2.GenerateVerifier()
 	url := g.config.AuthCodeURL(state, oauth2.S256ChallengeOption(verifier))
 
@@ -136,7 +136,8 @@ func (g *githubProvider) BeginAuth(ctx context.Context, adapter adapters.Adapter
 }
 
 // CompleteAuth completes the authentication process.
-// nolint:gocyclo
+//
+//nolint:gocyclo
 func (g *githubProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter, params providers.AuthParams) (adapters.GothUser, error) {
 	u := struct {
 		ID       int    `json:"id"`

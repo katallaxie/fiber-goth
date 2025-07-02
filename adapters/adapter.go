@@ -126,7 +126,7 @@ func (s *GothSession) GetUser() GothUser {
 	return s.User
 }
 
-// GothCsrfToken is a CSRF token for a user
+// GothCsrfToken is a CSRF token for a user.
 type GothCsrfToken struct {
 	// ID is the unique identifier of the CSRF token.
 	ID uuid.UUID `json:"id" gorm:"primaryKey;unique;type:uuid;column:id;default:gen_random_uuid()"`
@@ -162,7 +162,7 @@ func (c GothCsrfToken) IsValid(token string) bool {
 	return c.Token == token
 }
 
-// GothVerificationToken is a verification token for a user
+// GothVerificationToken is a verification token for a user.
 type GothVerificationToken struct {
 	// Token is the unique identifier of the token.
 	Token string `json:"token" gorm:"primaryKey"`
@@ -207,7 +207,7 @@ type Adapter interface {
 	// CreateVerificationToken creates a new verification token.
 	CreateVerificationToken(ctx context.Context, verficationToken GothVerificationToken) (GothVerificationToken, error)
 	// UseVerficationToken uses a verification token.
-	UseVerficationToken(ctx context.Context, identifier string, token string) (GothVerificationToken, error)
+	UseVerficationToken(ctx context.Context, identifier, token string) (GothVerificationToken, error)
 }
 
 var _ Adapter = (*UnimplementedAdapter)(nil)
@@ -216,76 +216,76 @@ var _ Adapter = (*UnimplementedAdapter)(nil)
 type UnimplementedAdapter struct{}
 
 // CreateUser creates a new user.
-func (a *UnimplementedAdapter) CreateUser(_ context.Context, user GothUser) (GothUser, error) {
+func (a *UnimplementedAdapter) CreateUser(_ context.Context, _ GothUser) (GothUser, error) {
 	return GothUser{}, ErrUnimplemented
 }
 
 // GetUser retrieves a user by ID.
-func (a *UnimplementedAdapter) GetUser(_ context.Context, id uuid.UUID) (GothUser, error) {
+func (a *UnimplementedAdapter) GetUser(_ context.Context, _ uuid.UUID) (GothUser, error) {
 	return GothUser{}, ErrUnimplemented
 }
 
 // GetUserByEmail retrieves a user by email.
-func (a *UnimplementedAdapter) GetUserByEmail(_ context.Context, email string) (GothUser, error) {
+func (a *UnimplementedAdapter) GetUserByEmail(_ context.Context, _ string) (GothUser, error) {
 	return GothUser{}, ErrUnimplemented
 }
 
 // GetUserByAccount retrieves a user by account.
-func (a *UnimplementedAdapter) GetUserByAccount(_ context.Context, provider string, providerAccountID string) (GothUser, error) {
+func (a *UnimplementedAdapter) GetUserByAccount(_ context.Context, _, _ string) (GothUser, error) {
 	return GothUser{}, ErrUnimplemented
 }
 
 // UpdateUser updates a user.
-func (a *UnimplementedAdapter) UpdateUser(_ context.Context, user GothUser) (GothUser, error) {
+func (a *UnimplementedAdapter) UpdateUser(_ context.Context, _ GothUser) (GothUser, error) {
 	return GothUser{}, ErrUnimplemented
 }
 
 // DeleteUser deletes a user by ID.
-func (a *UnimplementedAdapter) DeleteUser(_ context.Context, id uuid.UUID) error {
+func (a *UnimplementedAdapter) DeleteUser(_ context.Context, _ uuid.UUID) error {
 	return ErrUnimplemented
 }
 
 // LinkAccount links an account to a user.
-func (a *UnimplementedAdapter) LinkAccount(_ context.Context, accountID, userID uuid.UUID) error {
+func (a *UnimplementedAdapter) LinkAccount(_ context.Context, _, _ uuid.UUID) error {
 	return ErrUnimplemented
 }
 
 // UnlinkAccount unlinks an account from a user.
-func (a *UnimplementedAdapter) UnlinkAccount(_ context.Context, accountID, userID uuid.UUID) error {
+func (a *UnimplementedAdapter) UnlinkAccount(_ context.Context, _, _ uuid.UUID) error {
 	return ErrUnimplemented
 }
 
 // CreateSession creates a new session.
-func (a *UnimplementedAdapter) CreateSession(_ context.Context, userID uuid.UUID, expires time.Time) (GothSession, error) {
+func (a *UnimplementedAdapter) CreateSession(_ context.Context, _ uuid.UUID, _ time.Time) (GothSession, error) {
 	return GothSession{}, ErrUnimplemented
 }
 
 // GetSession retrieves a session by session token.
-func (a *UnimplementedAdapter) GetSession(_ context.Context, sessionToken string) (GothSession, error) {
+func (a *UnimplementedAdapter) GetSession(_ context.Context, _ string) (GothSession, error) {
 	return GothSession{}, ErrUnimplemented
 }
 
 // UpdateSession updates a session.
-func (a *UnimplementedAdapter) UpdateSession(_ context.Context, session GothSession) (GothSession, error) {
+func (a *UnimplementedAdapter) UpdateSession(_ context.Context, _ GothSession) (GothSession, error) {
 	return GothSession{}, ErrUnimplemented
 }
 
 // RefreshSession refreshes a session.
-func (a *UnimplementedAdapter) RefreshSession(_ context.Context, session GothSession) (GothSession, error) {
+func (a *UnimplementedAdapter) RefreshSession(_ context.Context, _ GothSession) (GothSession, error) {
 	return GothSession{}, ErrUnimplemented
 }
 
 // DeleteSession deletes a session by session token.
-func (a *UnimplementedAdapter) DeleteSession(_ context.Context, sessionToken string) error {
+func (a *UnimplementedAdapter) DeleteSession(_ context.Context, _ string) error {
 	return ErrUnimplemented
 }
 
 // CreateVerificationToken creates a new verification token.
-func (a *UnimplementedAdapter) CreateVerificationToken(_ context.Context, erficationToken GothVerificationToken) (GothVerificationToken, error) {
+func (a *UnimplementedAdapter) CreateVerificationToken(_ context.Context, _ GothVerificationToken) (GothVerificationToken, error) {
 	return GothVerificationToken{}, ErrUnimplemented
 }
 
 // UseVerficationToken uses a verification token.
-func (a *UnimplementedAdapter) UseVerficationToken(_ context.Context, identifier string, token string) (GothVerificationToken, error) {
+func (a *UnimplementedAdapter) UseVerficationToken(_ context.Context, _, _ string) (GothVerificationToken, error) {
 	return GothVerificationToken{}, ErrUnimplemented
 }

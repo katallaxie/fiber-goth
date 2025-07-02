@@ -16,12 +16,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/utils"
-	"github.com/valyala/fasthttp"
 	"github.com/katallaxie/fiber-goth/adapters"
 	"github.com/katallaxie/fiber-goth/providers"
+	"github.com/valyala/fasthttp"
 )
 
-var _ GothHandler = (*BeginAuthHandler)(nil)
+var _ Handler = (*BeginAuthHandler)(nil)
 
 const charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
 
@@ -39,7 +39,7 @@ func (p *Params) Get(key string) string {
 // other packages.
 type contextKey int
 
-// The keys for the values in context
+// The keys for the values in context.
 const (
 	providerKey contextKey = iota
 	sessionKey
@@ -58,7 +58,7 @@ func (e *Error) Error() string {
 	return e.Message
 }
 
-// NewError creates a new Error instance with an optional message
+// NewError creates a new Error instance with an optional message.
 func NewError(code int, message ...string) *Error {
 	err := &Error{
 		Code:    code,
@@ -118,7 +118,10 @@ func (SessionHandler) New(cfg Config) fiber.Handler {
 		}
 
 		if !session.IsValid() {
-			cfg.ErrorHandler(c, err)
+			err := cfg.ErrorHandler(c, err)
+			if err != nil {
+				return err
+			}
 		}
 
 		duration, err := time.ParseDuration(cfg.Expiry)
@@ -193,8 +196,8 @@ func (BeginAuthHandler) New(cfg Config) fiber.Handler {
 	}
 }
 
-// GothHandler is the interface for defining handlers for the middleware.
-type GothHandler interface {
+// Handler is the interface for defining handlers for the middleware.
+type Handler interface {
 	New(cfg Config) fiber.Handler
 }
 
@@ -313,7 +316,7 @@ type ProtectMiddleware struct{}
 
 // NewProtectMiddleware returns a new default protect handler.
 //
-// nolint:gocyclo
+//nolint:gocyclo
 func NewProtectMiddleware(config ...Config) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		cfg := configDefault(config...)
@@ -462,16 +465,16 @@ type Config struct {
 	Next func(c *fiber.Ctx) bool
 
 	// BeginAuthHandler is the handler to start authentication.
-	BeginAuthHandler GothHandler
+	BeginAuthHandler Handler
 
 	// CompleteAuthHandler is the handler to complete the authentication.
-	CompleteAuthHandler GothHandler
+	CompleteAuthHandler Handler
 
 	// LogoutHandler is the handler to logout.
-	LogoutHandler GothHandler
+	LogoutHandler Handler
 
 	// SessionHandler is the handler to manage the session.
-	SessionHandler GothHandler
+	SessionHandler Handler
 
 	// IndexHandler is the handler to display the index.
 	IndexHandler fiber.Handler
@@ -554,7 +557,7 @@ var ConfigDefault = Config{
 	CallbackURL:         "/auth",
 }
 
-// default ErrorHandler that process return error from fiber.Handler
+// default ErrorHandler that process return error from fiber.Handler.
 func defaultErrorHandler(_ *fiber.Ctx, err error) error {
 	return NewError(http.StatusBadRequest, err.Error())
 }
@@ -576,7 +579,8 @@ func defaultIndexHandler(c *fiber.Ctx) error {
 }
 
 // Helper function to set default values
-// nolint:gocyclo
+//
+//nolint:gocyclo
 func configDefault(config ...Config) Config {
 	if len(config) < 1 {
 		return ConfigDefault
@@ -666,7 +670,7 @@ func stateFromContext(ctx *fiber.Ctx) (string, error) {
 		return state, nil
 	}
 
-	nonce, err := generateRandomString(64)
+	nonce, err := generateRandomString(64) //nolint:mnd
 	if err != nil {
 		return "", err
 	}

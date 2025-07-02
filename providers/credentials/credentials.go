@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/katallaxie/fiber-goth/adapters"
 	"github.com/katallaxie/fiber-goth/providers"
-	"github.com/zeiss/pkg/dbx"
-	"golang.org/x/crypto/bcrypt"
 
+	"github.com/google/uuid"
+	"github.com/katallaxie/pkg/dbx"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -68,7 +68,7 @@ func (a *authIntent) GetAuthURL() (string, error) {
 type Opt func(*credentialsProvider)
 
 // New creates a new GitHub provider.
-func New(db *gorm.DB, opts ...Opt) *credentialsProvider {
+func New(db *gorm.DB, opts ...Opt) providers.Provider {
 	p := &credentialsProvider{
 		db: db,
 	}
@@ -80,7 +80,7 @@ func New(db *gorm.DB, opts ...Opt) *credentialsProvider {
 	return p
 }
 
-// HashPassword returns the bcrypt hash of the password
+// HashPassword returns the bcrypt hash of the password.
 func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -91,7 +91,7 @@ func HashPassword(password string) (string, error) {
 }
 
 // BeginAuth starts the authentication process.
-func (e *credentialsProvider) BeginAuth(ctx context.Context, adapter adapters.Adapter, state string, params providers.AuthParams) (providers.AuthIntent, error) {
+func (e *credentialsProvider) BeginAuth(_ context.Context, _ adapters.Adapter, _ string, _ providers.AuthParams) (providers.AuthIntent, error) {
 	return &authIntent{
 		authURL: "",
 	}, nil

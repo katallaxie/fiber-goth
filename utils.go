@@ -10,7 +10,7 @@ import (
 	"io"
 )
 
-// GenerateKey Generates an encryption key
+// GenerateKey Generates an encryption key.
 func GenerateKey() string {
 	const keyLen = 32
 	ret := make([]byte, keyLen)
@@ -22,7 +22,7 @@ func GenerateKey() string {
 	return base64.StdEncoding.EncodeToString(ret)
 }
 
-// EncryptCookie Encrypts a cookie value with specific encryption key
+// EncryptCookie Encrypts a cookie value with specific encryption key.
 func EncryptCookie(value, key string) (string, error) {
 	keyDecoded, err := base64.StdEncoding.DecodeString(key)
 	if err != nil {
@@ -49,7 +49,7 @@ func EncryptCookie(value, key string) (string, error) {
 	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
-// DecryptCookie Decrypts a cookie value with specific encryption key
+// DecryptCookie Decrypts a cookie value with specific encryption key.
 func DecryptCookie(value, key string) (string, error) {
 	keyDecoded, err := base64.StdEncoding.DecodeString(key)
 	if err != nil {

@@ -3,13 +3,13 @@ package csrf
 import (
 	"time"
 
-	"github.com/google/uuid"
-	goth "github.com/katallaxie/fiber-goth"
 	"github.com/katallaxie/fiber-goth/adapters"
-	"github.com/zeiss/pkg/slices"
-	"github.com/zeiss/pkg/utilx"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
+	goth "github.com/katallaxie/fiber-goth"
+	"github.com/katallaxie/pkg/slices"
+	"github.com/katallaxie/pkg/utilx"
 )
 
 var (
@@ -64,20 +64,22 @@ type Config struct {
 	IdleTimeout time.Duration
 
 	// TokenGenerator is a function that generates a CSRF token.
-	TokenGenerator CsrfTokenGenerator
+	TokenGenerator TokenGenerator
 }
+
+const defaultIdleTimeout = 30 * time.Minute
 
 // ConfigDefault is the default config.
 var ConfigDefault = Config{
-	IdleTimeout:    30 * time.Minute,
-	ErrorHandler:   defaultErrorHandler,
+	IdleTimeout:    defaultIdleTimeout,
+	ErrorHandler:   DefaultErrorHandler,
 	Extractor:      FromHeader(HeaderName),
 	TokenGenerator: DefaultCsrfTokenGenerator,
 	IgnoredMethods: []string{fiber.MethodGet, fiber.MethodHead, fiber.MethodOptions, fiber.MethodTrace},
 }
 
-// CsrfTokenGenerator is a function that generates a CSRF token.
-type CsrfTokenGenerator func() (string, error)
+// TokenGenerator is a function that generates a CSRF token.
+type TokenGenerator func() (string, error)
 
 // DefaultCsrfTokenGenerator generates a new CSRF token.
 func DefaultCsrfTokenGenerator() (string, error) {
@@ -89,13 +91,14 @@ func DefaultCsrfTokenGenerator() (string, error) {
 	return token.String(), nil
 }
 
-// default ErrorHandler that process return error from fiber.Handler
-func defaultErrorHandler(_ *fiber.Ctx, _ error) error {
+// DefaultErrorHandler is the default error handler for the CSRF middleware.
+func DefaultErrorHandler(_ *fiber.Ctx, _ error) error {
 	return fiber.ErrForbidden
 }
 
 // Helper function to set default values
-// nolint:gocyclo
+//
+//nolint:gocyclo
 func configDefault(config ...Config) Config {
 	if len(config) < 1 {
 		return ConfigDefault
@@ -128,7 +131,8 @@ func configDefault(config ...Config) Config {
 }
 
 // New creates a new csrf middleware.
-// nolint:gocyclo
+//
+//nolint:gocyclo
 func New(config ...Config) fiber.Handler {
 	// Set default config
 	cfg := configDefault(config...)
@@ -193,8 +197,8 @@ func New(config ...Config) fiber.Handler {
 	}
 }
 
-// CsrfTokenFromContext returns the CSRF token from the context.
-func CsrfTokenFromContext(c *fiber.Ctx) (string, error) {
+// TokenFromContext returns the CSRF token from the context.
+func TokenFromContext(c *fiber.Ctx) (string, error) {
 	token, ok := c.Locals(csrfTokenKey).(adapters.GothCsrfToken)
 	if !ok {
 		return "", ErrTokenNotFound

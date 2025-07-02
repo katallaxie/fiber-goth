@@ -1,7 +1,7 @@
 package entraid
 
 type (
-	// ScopeType are the well known scopes which can be requested
+	// ScopeType are the well known scopes which can be requested.
 	ScopeType string
 )
 
@@ -150,58 +150,58 @@ const (
 	// Note: Users may consent to applications that require this permission if the application is registered in their
 	// own organization’s tenant.
 	//
-	// requires admin consent
+	// requires admin consent..
 	DirectoryReadAllScope ScopeType = "Directory.Read.All"
 
 	// DirectoryReadWriteAllScope allows the app to read and write data in your organization's directory, such as users,
 	// and groups. It does not allow the app to delete users or groups, or reset user passwords.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DirectoryReadWriteAllScope ScopeType = "Directory.ReadWrite.All"
 
 	// DirectoryAccessAsUserAllScope allows the app to have the same access to information in the directory as the
 	// signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DirectoryAccessAsUserAllScope ScopeType = "Directory.AccessAsUser.All"
 )
 
-// Education Administration Permissions
+// Education Administration Permissions.
 const (
 	// EduAdministrationReadScope allows the app to read education app settings on behalf of the user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduAdministrationReadScope ScopeType = "EduAdministration.Read"
 
 	// EduAdministrationReadWriteScope allows the app to manage education app settings on behalf of the user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduAdministrationReadWriteScope ScopeType = "EduAdministration.ReadWrite"
 
 	// EduAssignmentsReadBasicScope allows the app to read assignments without grades on behalf of the user
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduAssignmentsReadBasicScope ScopeType = "EduAssignments.ReadBasic"
 
 	// EduAssignmentsReadWriteBasicScope allows the app to read and write assignments without grades on behalf of the
-	// user
+	// user.
 	EduAssignmentsReadWriteBasicScope ScopeType = "EduAssignments.ReadWriteBasic"
 
 	// EduAssignmentsReadScope allows the app to read assignments and their grades on behalf of the user
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduAssignmentsReadScope ScopeType = "EduAssignments.Read"
 
 	// EduAssignmentsReadWriteScope allows the app to read and write assignments and their grades on behalf of the user
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduAssignmentsReadWriteScope ScopeType = "EduAssignments.ReadWrite"
 
 	// EduRosteringReadBasicScope allows the app to read a limited subset of the data from the  structure of schools and
 	// classes in an organization's roster and  education-specific information about users to be read on behalf of the
 	// user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	EduRosteringReadBasicScope ScopeType = "EduRostering.ReadBasic"
 )
 
@@ -237,14 +237,10 @@ const (
 
 	// FilesReadSelectedScope allows the app to read files that the user selects. The app has access for several hours
 	// after the user selects a file.
-	//
-	// preview
 	FilesReadSelectedScope ScopeType = "Files.Read.Selected"
 
 	// FilesReadWriteSelectedScope allows the app to read and write files that the user selects. The app has access for
-	// several hours after the user selects a file
-	//
-	// preview
+	// several hours after the user selects a file.
 	FilesReadWriteSelectedScope ScopeType = "Files.ReadWrite.Selected"
 )
 
@@ -290,7 +286,7 @@ const (
 	// IdentityRiskEventReadAllScope allows the app to read identity risk event information for all users in your
 	// organization on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	IdentityRiskEventReadAllScope ScopeType = "IdentityRiskEvent.Read.All"
 )
 
@@ -304,13 +300,13 @@ const (
 	// IdentityProviderReadAllScope allows the app to read identity providers configured in your Azure AD or Azure AD
 	// B2C tenant on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	IdentityProviderReadAllScope ScopeType = "IdentityProvider.Read.All"
 
 	// IdentityProviderReadWriteAllScope allows the app to read or write identity providers configured in your Azure AD
 	// or Azure AD B2C tenant on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	IdentityProviderReadWriteAllScope ScopeType = "IdentityProvider.ReadWrite.All"
 )
 
@@ -324,68 +320,68 @@ const (
 	// DeviceManagementAppsReadAllScope allows the app to read the properties, group assignments and status of apps, app
 	// configurations and app protection policies managed by Microsoft Intune.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementAppsReadAllScope ScopeType = "DeviceManagementApps.Read.All"
 
 	// DeviceManagementAppsReadWriteAllScope allows the app to read and write the properties, group assignments and
 	// status of apps, app configurations and app protection policies managed by Microsoft Intune.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementAppsReadWriteAllScope ScopeType = "DeviceManagementApps.ReadWrite.All"
 
 	// DeviceManagementConfigurationReadAllScope allows the app to read properties of Microsoft Intune-managed device
 	// configuration and device compliance policies and their assignment to groups.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementConfigurationReadAllScope ScopeType = "DeviceManagementConfiguration.Read.All"
 
 	// DeviceManagementConfigurationReadWriteAllScope allows the app to read and write properties of Microsoft
 	// Intune-managed device configuration and device compliance policies and their assignment to groups.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementConfigurationReadWriteAllScope ScopeType = "DeviceManagementConfiguration.ReadWrite.All"
 
 	// DeviceManagementManagedDevicesPrivilegedOperationsAllScope allows the app to perform remote high impact actions
 	// such as wiping the device or resetting the passcode on devices managed by Microsoft Intune.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementManagedDevicesPrivilegedOperationsAllScope ScopeType = "DeviceManagementManagedDevices.PrivilegedOperations.All"
 
 	// DeviceManagementManagedDevicesReadAllScope allows the app to read the properties of devices managed by Microsoft
 	// Intune.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementManagedDevicesReadAllScope ScopeType = "DeviceManagementManagedDevices.Read.All"
 
 	// DeviceManagementManagedDevicesReadWriteAllScope allows the app to read and write the properties of devices
 	// managed by Microsoft Intune. Does not allow high impact operations such as remote wipe and password reset on the
 	// device’s owner.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementManagedDevicesReadWriteAllScope ScopeType = "DeviceManagementManagedDevices.ReadWrite.All"
 
 	// DeviceManagementRBACReadAllScope allows the app to read the properties relating to the Microsoft Intune
 	// Role-Based Access Control (RBAC) settings.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementRBACReadAllScope ScopeType = "DeviceManagementRBAC.Read.All"
 
 	// DeviceManagementRBACReadWriteAllScope allows the app to read and write the properties relating to the Microsoft
 	// Intune Role-Based Access Control (RBAC) settings.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementRBACReadWriteAllScope ScopeType = "DeviceManagementRBAC.ReadWrite.All"
 
 	// DeviceManagementServiceConfigReadAllScope allows the app to read Intune service properties including device
 	// enrollment and third party service connection configuration.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementServiceConfigReadAllScope ScopeType = "DeviceManagementServiceConfig.Read.All"
 
 	// DeviceManagementServiceConfigReadWriteAllScope allows the app to read and write Microsoft Intune service
 	// properties including device enrollment and third party service connection configuration.
 	//
-	// requires admin consent
+	// requires admin consent.
 	DeviceManagementServiceConfigReadWriteAllScope ScopeType = "DeviceManagementServiceConfig.ReadWrite.All"
 )
 
@@ -439,7 +435,7 @@ const (
 	// MemberReadHiddenScope allows the app to read the memberships of hidden groups and administrative units on behalf
 	// of the signed-in user, for those hidden groups and administrative units that the signed-in user has access to.
 	//
-	// requires admin consent
+	// requires admin consent.
 	MemberReadHiddenScope ScopeType = "Member.Read.Hidden"
 )
 
@@ -490,7 +486,7 @@ const (
 	// your organization's directory, and people from recent communications (such as email and Skype). Also allows the
 	// app to search the entire directory of the signed-in user's organization.
 	//
-	// requires admin consent
+	// requires admin consent.
 	PeopleReadAllScope ScopeType = "People.Read.All"
 )
 
@@ -501,7 +497,7 @@ const (
 	// ReportsReadAllScope allows an app to read all service usage reports without a signed-in user. Services that
 	// provide usage reports include Office 365 and Azure Active Directory.
 	//
-	// requires admin consent
+	// requires admin consent.
 	ReportsReadAllScope ScopeType = "Reports.Read.All"
 )
 
@@ -511,14 +507,14 @@ const (
 const (
 	// SecurityEventsReadAllScope allows the app to read your organization’s security events on behalf of the signed-in
 	// user.
-	// requires admin consent
+	// requires admin consent.
 	SecurityEventsReadAllScope ScopeType = "SecurityEvents.Read.All"
 
 	// SecurityEventsReadWriteAllScope allows the app to read your organization’s security events on behalf of the
 	// signed-in user. Also allows the app to update editable properties in security events on behalf of the signed-in
 	// user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	SecurityEventsReadWriteAllScope ScopeType = "SecurityEvents.ReadWrite.All"
 )
 
@@ -541,7 +537,7 @@ const (
 	// SitesFullControlAllScope allows the app to have full control to SharePoint sites in all site collections on
 	// behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	SitesFullControlAllScope ScopeType = "Sites.FullControl.All"
 )
 
@@ -581,25 +577,25 @@ const (
 const (
 	// AgreementReadAllScope allows the app to read terms of use agreements on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	AgreementReadAllScope ScopeType = "Agreement.Read.All"
 
 	// AgreementReadWriteAllScope allows the app to read and write terms of use agreements on behalf of the signed-in
 	// user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	AgreementReadWriteAllScope ScopeType = "Agreement.ReadWrite.All"
 
 	// AgreementAcceptanceReadScope allows the app to read terms of use acceptance statuses on behalf of the signed-in
 	// user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	AgreementAcceptanceReadScope ScopeType = "AgreementAcceptance.Read"
 
 	// AgreementAcceptanceReadAllScope allows the app to read terms of use acceptance statuses on behalf of the
 	// signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	AgreementAcceptanceReadAllScope ScopeType = "AgreementAcceptance.Read.All"
 )
 
@@ -681,25 +677,25 @@ const (
 	// UserReadAllScope allows the app to read the full set of profile properties, reports, and managers of other users
 	// in your organization, on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	UserReadAllScope ScopeType = "User.Read.All"
 
 	// UserReadWriteAllScope allows the app to read and write the full set of profile properties, reports, and managers
 	// of other users in your organization, on behalf of the signed-in user. Also allows the app to create and delete
 	// users as well as reset user passwords on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	UserReadWriteAllScope ScopeType = "User.ReadWrite.All"
 
 	// UserInviteAllScope allows the app to invite guest users to your organization, on behalf of the signed-in user.
 	//
-	// requires admin consent
+	// requires admin consent.
 	UserInviteAllScope ScopeType = "User.Invite.All"
 
 	// UserExportAllScope allows the app to export an organizational user's data, when performed by a Company
 	// Administrator.
 	//
-	// requires admin consent
+	// requires admin consent.
 	UserExportAllScope ScopeType = "User.Export.All"
 )
 

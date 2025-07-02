@@ -9,9 +9,10 @@ import (
 
 	"github.com/katallaxie/fiber-goth/adapters"
 	"github.com/katallaxie/fiber-goth/providers"
-	"github.com/zeiss/pkg/cast"
-	"github.com/zeiss/pkg/conv"
-	"github.com/zeiss/pkg/utilx"
+
+	"github.com/katallaxie/pkg/cast"
+	"github.com/katallaxie/pkg/conv"
+	"github.com/katallaxie/pkg/utilx"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/endpoints"
 )
@@ -23,7 +24,7 @@ const (
 	GraphAPIURL string = "https://graph.microsoft.com/v1.0/"
 )
 
-type entraIdProvider struct {
+type entraIDProvider struct {
 	id           string
 	name         string
 	clientKey    string
@@ -50,8 +51,8 @@ func (a *authIntent) GetAuthURL() (string, error) {
 }
 
 // New creates a new GitHub provider.
-func New(clientKey, secret, callbackURL string, tenentType TenantType, scopes ...ScopeType) *entraIdProvider {
-	p := &entraIdProvider{
+func New(clientKey, secret, callbackURL string, tenentType TenantType, scopes ...ScopeType) providers.Provider {
+	p := &entraIDProvider{
 		id:           "entraid",
 		name:         "EntraID",
 		clientKey:    clientKey,
@@ -66,25 +67,25 @@ func New(clientKey, secret, callbackURL string, tenentType TenantType, scopes ..
 }
 
 // ID returns the provider's ID.
-func (g *entraIdProvider) ID() string {
-	return g.id
+func (e *entraIDProvider) ID() string {
+	return e.id
 }
 
 // Name returns the provider's name.
-func (g *entraIdProvider) Name() string {
-	return g.name
+func (e *entraIDProvider) Name() string {
+	return e.name
 }
 
 // Type returns the provider's type.
-func (g *entraIdProvider) Type() providers.ProviderType {
-	return g.providerType
+func (e *entraIDProvider) Type() providers.ProviderType {
+	return e.providerType
 }
 
-func newConfig(p *entraIdProvider, tenant TenantType, scopes ...ScopeType) *oauth2.Config {
+func newConfig(e *entraIDProvider, tenant TenantType, scopes ...ScopeType) *oauth2.Config {
 	c := &oauth2.Config{
-		ClientID:     p.clientKey,
-		ClientSecret: p.secret,
-		RedirectURL:  p.callbackURL,
+		ClientID:     e.clientKey,
+		ClientSecret: e.secret,
+		RedirectURL:  e.callbackURL,
 		Endpoint:     endpoints.AzureAD(conv.String(tenant)),
 		Scopes:       conv.Strings(append(DefaultScopes, scopes...)...),
 	}
@@ -117,7 +118,7 @@ const (
 )
 
 // BeginAuth starts the authentication process.
-func (e *entraIdProvider) BeginAuth(ctx context.Context, adapter adapters.Adapter, state string, _ providers.AuthParams) (providers.AuthIntent, error) {
+func (e *entraIDProvider) BeginAuth(_ context.Context, _ adapters.Adapter, state string, _ providers.AuthParams) (providers.AuthIntent, error) {
 	url := e.config.AuthCodeURL(state)
 
 	return &authIntent{
@@ -126,8 +127,9 @@ func (e *entraIdProvider) BeginAuth(ctx context.Context, adapter adapters.Adapte
 }
 
 // CompleteAuth completes the authentication process.
-// nolint:gocyclo
-func (e *entraIdProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter, params providers.AuthParams) (adapters.GothUser, error) {
+//
+//nolint:gocyclo
+func (e *entraIDProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter, params providers.AuthParams) (adapters.GothUser, error) {
 	u := struct {
 		ID                string   `json:"id"`                // The unique identifier for the user.
 		BusinessPhones    []string `json:"businessPhones"`    // The user's phone numbers.
@@ -162,6 +164,7 @@ func (e *entraIdProvider) CompleteAuth(ctx context.Context, adapter adapters.Ada
 	if err != nil {
 		return adapters.GothUser{}, err
 	}
+	//nolint:errcheck
 	defer io.Copy(io.Discard, resp.Body) // equivalent to `cp body /dev/null`
 	defer resp.Body.Close()
 
