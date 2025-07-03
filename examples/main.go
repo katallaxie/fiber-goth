@@ -94,7 +94,7 @@ func run(_ context.Context) error {
 
 	ga := gorm_adapter.New(conn)
 
-	providers.RegisterProvider(github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"))
+	providers.RegisterProvider(github.New(os.Getenv("GITHUB_CLIENT_ID"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"))
 	providers.RegisterProvider(entraid.New(os.Getenv("ENTRAID_CLIENT_ID"), os.Getenv("ENTRAID_CLIENT_SECRET"), "http://localhost:3000/auth/entraid/callback", entraid.TenantType(os.Getenv("ENTRAID_TENANT_ID"))))
 
 	m := map[string]string{
@@ -150,11 +150,11 @@ func run(_ context.Context) error {
 		return t.Execute(c.Response().BodyWriter(), providerIndex)
 	})
 	app.Get("/session", goth.NewSessionHandler(gothConfig))
-	app.Use("/login/:provider", goth.NewBeginAuthHandler(gothConfig))
+	app.Get("/login/:provider", goth.NewBeginAuthHandler(gothConfig))
 	app.Get("/auth/:provider/callback", goth.NewCompleteAuthHandler(gothConfig))
 	app.Get("/logout", goth.NewLogoutHandler(gothConfig))
 
-	if err := app.Listen("0.0.0.0:3000"); err != nil {
+	if err := app.Listen(":3000"); err != nil {
 		return err
 	}
 

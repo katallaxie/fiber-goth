@@ -24,6 +24,7 @@ var (
 	ErrFailedFetchUser        = errors.New("goth: no failed to fetch user")
 	ErrNotAllowedOrg          = errors.New("goth: user not in allowed org")
 	ErrNoName                 = errors.New("goth: user has no display name set")
+	ErrAuthFailedParse        = errors.New("goth: failed to parse auth params, missing code or state")
 )
 
 const NoopEmail = ""
@@ -128,10 +129,10 @@ func (a *authIntent) GetAuthURL() (string, error) {
 // BeginAuth starts the authentication process.
 func (g *githubProvider) BeginAuth(_ context.Context, _ adapters.Adapter, state string, _ providers.AuthParams) (providers.AuthIntent, error) {
 	verifier := oauth2.GenerateVerifier()
-	url := g.config.AuthCodeURL(state, oauth2.S256ChallengeOption(verifier))
+	uri := g.config.AuthCodeURL(state, oauth2.S256ChallengeOption(verifier))
 
 	return &authIntent{
-		authURL: url,
+		authURL: uri,
 	}, nil
 }
 

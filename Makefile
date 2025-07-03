@@ -5,6 +5,7 @@ GO 					?= go
 GO_RELEASER 		?= goreleaser
 GO_TOOL 			?= $(GO) tool
 GO_TEST 			?= $(GO_TOOL) gotest.tools/gotestsum --format pkgname
+GO_AIR 				?= $(GO_TOOL) github.com/air-verse/air
 
 .PHONY: build
 build: ## Build the binary file.
@@ -25,6 +26,10 @@ fmt: ## Run go fmt against code.
 .PHONY: vet
 vet: ## Run go vet against code.
 	$(GO) vet ./...
+
+.PHONY: start
+start: ## Start the application with live reload.
+	$(GO_AIR) -c .air.toml
 
 .PHONY: test
 test: fmt vet ## Run tests.

@@ -26,11 +26,5 @@
         "ms-vscode.makefile-tools"
       ]
     }
-  },
-  "portsAttributes": {
-    "3000": {
-      "label": "Application",
-      "onAutoForward": "openPreview"
-    }
   }
 }

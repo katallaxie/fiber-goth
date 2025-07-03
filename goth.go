@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/utils"
 	"github.com/katallaxie/fiber-goth/adapters"
 	"github.com/katallaxie/fiber-goth/providers"
@@ -230,30 +229,21 @@ func (CompleteAuthCompleteHandler) New(cfg Config) fiber.Handler {
 			return cfg.ErrorHandler(c, ErrMissingProviderName)
 		}
 
-		log.Infow("", "provider", provider.Name())
-
 		user, err := provider.CompleteAuth(c.Context(), cfg.Adapter, &Params{ctx: c})
 		if err != nil {
-			log.Error(err)
 			return cfg.ErrorHandler(c, ErrMissingUser)
 		}
 
-		log.Infow("", "user", user.Email)
-
 		duration, err := time.ParseDuration(cfg.Expiry)
 		if err != nil {
-			log.Error(err)
 			return cfg.ErrorHandler(c, ErrMissingSession)
 		}
 		expires := time.Now().Add(duration)
 
 		session, err := cfg.Adapter.CreateSession(c.Context(), user.ID, expires)
 		if err != nil {
-			log.Error(err)
 			return cfg.ErrorHandler(c, ErrMissingSession)
 		}
-
-		log.Infow("", "session", session.SessionToken)
 
 		cookieValue := fasthttp.Cookie{}
 		cookieValue.SetKeyBytes([]byte(cfg.CookieName))
