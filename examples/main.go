@@ -47,7 +47,7 @@ type DB struct {
 var cfg = &Config{
 	Flags: &Flags{
 		DB: &DB{
-			Host:     "host.docker.internal",
+			Host:     "localhost",
 			Username: "example",
 			Password: "example",
 			Port:     5432, //nolint:mnd
