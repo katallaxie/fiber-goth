@@ -15,6 +15,9 @@ const (
 	defaultMaxIdleConnsPerHost = 20
 )
 
+// Unknown is an unknown string.
+const Unknown = "unknown"
+
 // DefaultClient is the default HTTP client used.
 var DefaultClient = &http.Client{
 	Transport: &http.Transport{
@@ -111,12 +114,12 @@ type UnimplementedProvider struct {
 
 // ID returns the provider's ID.
 func (u *UnimplementedProvider) ID() string {
-	return ""
+	return Unknown
 }
 
 // Name returns the provider's name.
 func (u *UnimplementedProvider) Name() string {
-	return ""
+	return Unknown
 }
 
 // Type returns the provider's type.
