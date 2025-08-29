@@ -11,7 +11,7 @@ A [fiber](https://gofiber.io/) :rocket: middleware to integrate authentication t
 ## Installation
 
 ```bash
-$ go get github.com/katallaxie/fiber-goth
+$ go get github.com/katallaxie/fiber-goth/v3
 ```
 
 ## Providers
@@ -24,7 +24,7 @@ $ go get github.com/katallaxie/fiber-goth
 The middleware supports CSRF protection. It is added via the following package.
 
 ```golang
-import "github.com/katallaxie/fiber-goth/csrf"
+import "github.com/katallaxie/fiber-goth/v3/csrf"
 
 app := fiber.New()
 app.Use(csrf.New())
