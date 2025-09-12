@@ -18,7 +18,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/pkg v0.7.9
 	github.com/spf13/cobra v1.10.1
-	github.com/valyala/fasthttp v1.65.0
+	github.com/valyala/fasthttp v1.66.0
 	golang.org/x/crypto v0.42.0
 	golang.org/x/oauth2 v0.31.0
 	gorm.io/driver/postgres v1.6.0
