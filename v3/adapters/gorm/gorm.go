@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	goth "github.com/katallaxie/fiber-goth"
-	"github.com/katallaxie/fiber-goth/adapters"
+	goth "github.com/katallaxie/fiber-goth/v3"
+	"github.com/katallaxie/fiber-goth/v3/adapters"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
