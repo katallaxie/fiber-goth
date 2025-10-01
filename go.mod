@@ -1,8 +1,6 @@
 module github.com/katallaxie/fiber-goth
 
-go 1.24.0
-
-toolchain go1.24.4
+go 1.25.0
 
 tool (
 	github.com/air-verse/air
