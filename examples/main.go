@@ -8,16 +8,16 @@ import (
 	"os"
 	"sort"
 
-	goth "github.com/katallaxie/fiber-goth"
-	gorm_adapter "github.com/katallaxie/fiber-goth/adapters/gorm"
-	"github.com/katallaxie/fiber-goth/csrf"
-	"github.com/katallaxie/fiber-goth/providers"
-	"github.com/katallaxie/fiber-goth/providers/entraid"
-	"github.com/katallaxie/fiber-goth/providers/github"
+	goth "github.com/katallaxie/fiber-goth/v3"
+	gorm_adapter "github.com/katallaxie/fiber-goth/v3/adapters/gorm"
+	"github.com/katallaxie/fiber-goth/v3/csrf"
+	"github.com/katallaxie/fiber-goth/v3/providers"
+	"github.com/katallaxie/fiber-goth/v3/providers/entraid"
+	"github.com/katallaxie/fiber-goth/v3/providers/github"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/requestid"
 	"github.com/katallaxie/pkg/logx"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/postgres"
@@ -127,7 +127,7 @@ func run(_ context.Context) error {
 
 	app.Use(goth.NewProtectMiddleware(gothConfig))
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	app.Get("/", func(c fiber.Ctx) error {
 		session, err := goth.SessionFromContext(c)
 		if err != nil {
 			return err
@@ -136,7 +136,7 @@ func run(_ context.Context) error {
 		return c.JSON(session)
 	})
 
-	app.Get("/protected", func(c *fiber.Ctx) error {
+	app.Get("/protected", func(c fiber.Ctx) error {
 		t, err := csrf.TokenFromContext(c)
 		if err != nil {
 			return err
@@ -145,7 +145,7 @@ func run(_ context.Context) error {
 		return c.SendString(t)
 	})
 
-	app.Get("/login", func(c *fiber.Ctx) error {
+	app.Get("/login", func(c fiber.Ctx) error {
 		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
 		return t.Execute(c.Response().BodyWriter(), providerIndex)
 	})

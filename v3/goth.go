@@ -191,7 +191,7 @@ func (BeginAuthHandler) New(cfg Config) fiber.Handler {
 			return err
 		}
 
-		return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(url)
+		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(url)
 	}
 }
 
@@ -329,28 +329,28 @@ func NewProtectMiddleware(config ...Config) fiber.Handler {
 
 		token, err := cfg.Extractor(c)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		session, err := cfg.Adapter.GetSession(c, token)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		if !session.IsValid() {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		duration, err := time.ParseDuration(cfg.Expiry)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 		expires := time.Now().Add(duration)
 		session.ExpiresAt = expires
 
 		session, err = cfg.Adapter.RefreshSession(c, session)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		cookieValue := fasthttp.Cookie{}
@@ -385,28 +385,28 @@ func NewProtectedHandler(handler fiber.Handler, config ...Config) fiber.Handler 
 
 		token, err := cfg.Extractor(c)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		session, err := cfg.Adapter.GetSession(c, token)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		if !session.IsValid() {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		duration, err := time.ParseDuration(cfg.Expiry)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 		expires := time.Now().Add(duration)
 		session.ExpiresAt = expires
 
 		session, err = cfg.Adapter.RefreshSession(c, session)
 		if err != nil {
-			return c.Redirect().Status(fiber.StatusTemporaryRedirect).Route(cfg.LoginURL)
+			return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(cfg.LoginURL)
 		}
 
 		cookieValue := fasthttp.Cookie{}
@@ -555,7 +555,7 @@ func defaultErrorHandler(_ fiber.Ctx, err error) error {
 // default filter for response that process default return.
 func defaultCompletionFilter(completionURL string) fiber.Handler {
 	return func(c fiber.Ctx) error {
-		return c.Redirect().Status(http.StatusTemporaryRedirect).Route(completionURL)
+		return c.Redirect().Status(http.StatusTemporaryRedirect).To(completionURL)
 	}
 }
 

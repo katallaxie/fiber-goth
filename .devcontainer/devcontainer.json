@@ -7,7 +7,9 @@
       "VARIANT": "ubuntu-22.04"
     }
   },
-  "runArgs": [],
+  "runArgs": [
+    "--add-host=host.containers.internal:host-gateway"
+  ],
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   "postCreateCommand": "bash scripts/postCreateCommand.sh",
   "features": {

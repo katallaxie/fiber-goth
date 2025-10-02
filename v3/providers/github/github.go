@@ -164,8 +164,11 @@ func (g *githubProvider) CompleteAuth(ctx context.Context, adapter adapters.Adap
 
 	token, err := g.config.Exchange(ctx, code, oauth2.SetAuthURLParam("code_verifier", verifier))
 	if err != nil {
+		fmt.Println(err)
 		return adapters.GothUser{}, err
 	}
+
+	fmt.Println(token)
 
 	gc := github.NewClient(g.config.Client(ctx, token))
 
