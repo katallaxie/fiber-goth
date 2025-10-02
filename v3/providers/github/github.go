@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/katallaxie/fiber-goth/adapters"
-	"github.com/katallaxie/fiber-goth/providers"
+	"github.com/katallaxie/fiber-goth/v3/adapters"
+	"github.com/katallaxie/fiber-goth/v3/providers"
 
 	"github.com/google/go-github/v56/github"
 	"github.com/katallaxie/pkg/cast"

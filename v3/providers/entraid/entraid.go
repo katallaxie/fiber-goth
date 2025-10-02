@@ -7,8 +7,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/katallaxie/fiber-goth/adapters"
-	"github.com/katallaxie/fiber-goth/providers"
+	"github.com/katallaxie/fiber-goth/v3/adapters"
+	"github.com/katallaxie/fiber-goth/v3/providers"
 
 	"github.com/katallaxie/pkg/cast"
 	"github.com/katallaxie/pkg/conv"
