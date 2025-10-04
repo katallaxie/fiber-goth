@@ -64,6 +64,11 @@ func (a *authIntent) GetAuthURL() (string, error) {
 	return a.authURL, nil
 }
 
+// CodeVerifier returns the code verifier for PKCE, if applicable.
+func (a *authIntent) CodeVerifier() string {
+	return ""
+}
+
 // Opt is a function that configures the credentials provider.
 type Opt func(*credentialsProvider)
 

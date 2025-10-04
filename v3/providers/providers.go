@@ -50,13 +50,18 @@ type Provider interface {
 
 // AuthParams is the type of authentication parameters.
 type AuthParams interface {
+	//  Get returns the value of a parameter by name.
 	Get(string) string
+	// CodeVerifier returns the code verifier for PKCE, if applicable.
+	CodeVerifier() string
 }
 
 // AuthIntent is the type of authentication intent.
 type AuthIntent interface {
 	// GetAuthURL returns the URL for the authentication end-point.
 	GetAuthURL() (string, error)
+	// CodeVerifier returns the code verifier for PKCE, if applicable.
+	CodeVerifier() string
 }
 
 // PrioviderType is the type of provider.

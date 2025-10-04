@@ -50,6 +50,11 @@ func (a *authIntent) GetAuthURL() (string, error) {
 	return a.authURL, nil
 }
 
+// CodeVerifier returns the code verifier for PKCE, if applicable.
+func (a *authIntent) CodeVerifier() string {
+	return ""
+}
+
 // New creates a new GitHub provider.
 func New(clientKey, secret, callbackURL string, tenentType TenantType, scopes ...ScopeType) providers.Provider {
 	p := &entraIDProvider{
