@@ -25,6 +25,22 @@ var _ Handler = (*BeginAuthHandler)(nil)
 
 const charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
 
+// Environment represents the environment the application is running in.
+type Environment string
+
+const (
+	// Noop is a no-op function.
+	Noop Environment = "noop"
+	// Development environment.
+	Development Environment = "development"
+	// Testing environment.
+	Testing Environment = "testing"
+	// Staging environment.
+	Staging Environment = "staging"
+	// Production environment.
+	Production Environment = "production"
+)
+
 // Params maps the parameters of the Fiber context to the gothic context.
 type Params struct {
 	ctx          fiber.Ctx
@@ -204,7 +220,7 @@ func (BeginAuthHandler) New(cfg Config) fiber.Handler {
 		}
 
 		// Set the code verifier in a cookie if it exists
-		codeCookie := NewCodeVerifierCookie(cfg.CodeVerifierCookieName(), intent.CodeVerifier())
+		codeCookie := NewCodeVerifierCookie(cfg.CodeVerifierCookieName(), intent.CodeVerifier(), utilx.NotEqual(cfg.Environment, Development))
 		c.Response().Header.SetCookie(codeCookie)
 
 		return c.Redirect().Status(fiber.StatusTemporaryRedirect).To(url)
@@ -548,6 +564,9 @@ type Config struct {
 
 	// Extractor is the function used to extract the token from the request.
 	Extractor func(c fiber.Ctx) (string, error)
+
+	// Environment is the environment the application is running in.
+	Environment Environment
 }
 
 // CookieName returns the cookie name with the prefix.
@@ -589,6 +608,7 @@ var ConfigDefault = Config{
 	LogoutURL:           "/logout",
 	CallbackURL:         "/auth",
 	CookiePrefix:        "fiber_goth",
+	Environment:         Development,
 }
 
 // default ErrorHandler that process return error from fiber.Handler.
@@ -693,6 +713,10 @@ func configDefault(config ...Config) Config {
 
 	if cfg.CompletionFilter == nil {
 		cfg.CompletionFilter = defaultCompletionFilter(cfg.CompletionURL)
+	}
+
+	if utilx.Empty(cfg.Environment) {
+		cfg.Environment = ConfigDefault.Environment
 	}
 
 	return cfg

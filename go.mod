@@ -16,7 +16,7 @@ require (
 	github.com/google/go-github/v56 v56.0.0
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/fiber-goth/v3 v3.0.0-alpha.3
-	github.com/katallaxie/pkg v0.7.9
+	github.com/katallaxie/pkg v0.7.10-0.20251004142418-b325fe12855e
 	github.com/spf13/cobra v1.10.1
 	github.com/valyala/fasthttp v1.66.0
 	golang.org/x/crypto v0.42.0
@@ -249,7 +249,7 @@ require (
 	golang.org/x/term v0.35.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
 	golang.org/x/tools v0.36.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/protobuf v1.36.10 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/gotestsum v1.12.1 // indirect
 	honnef.co/go/tools v0.6.1 // indirect
