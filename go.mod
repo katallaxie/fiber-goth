@@ -18,7 +18,7 @@ require (
 	github.com/katallaxie/fiber-goth/v3 v3.0.0-alpha.3
 	github.com/katallaxie/pkg v0.7.10-0.20251004142418-b325fe12855e
 	github.com/spf13/cobra v1.10.1
-	github.com/valyala/fasthttp v1.66.0
+	github.com/valyala/fasthttp v1.67.0
 	golang.org/x/crypto v0.42.0
 	golang.org/x/oauth2 v0.31.0
 	gorm.io/driver/postgres v1.6.0
@@ -243,7 +243,7 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20250210185358-939b2ce775ac // indirect
 	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
+	golang.org/x/net v0.45.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/term v0.35.0 // indirect
