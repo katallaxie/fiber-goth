@@ -11,7 +11,7 @@ tool (
 )
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.9
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/gofiber/fiber/v3 v3.0.0-rc.3
 	github.com/google/go-github/v56 v56.0.0
 	github.com/google/uuid v1.6.0
