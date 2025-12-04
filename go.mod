@@ -17,7 +17,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/fiber-goth/v3 v3.0.0-alpha.3
 	github.com/katallaxie/pkg v0.7.10
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/valyala/fasthttp v1.68.0
 	golang.org/x/crypto v0.44.0
 	golang.org/x/oauth2 v0.33.0
