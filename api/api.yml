@@ -1,9 +1,9 @@
 ---
-openapi: 3.1.1
+openapi: 3.0.4
 info:
   title: Fiber Goth API
   description: API Reference for your Fiber Goth Instance
-  version: 1.1.0
+  version: 1.0.0
 components:
   schemas:
     User:
@@ -278,30 +278,25 @@ paths:
                 callbackURL:
                   type:
                   - string
-                  - 'null'
                   description: Callback URL to redirect to after the user has signed
                     in
                 newUserCallbackURL:
                   type:
                   - string
-                  - 'null'
                 errorCallbackURL:
                   type:
                   - string
-                  - 'null'
                   description: Callback URL to redirect to if an error happens
                 provider:
                   type: string
                 disableRedirect:
                   type:
                   - boolean
-                  - 'null'
                   description: Disable automatic redirection to the provider. Useful
                     for handling the redirection yourself
                 idToken:
                   type:
                   - object
-                  - 'null'
                   properties:
                     token:
                       type: string
@@ -309,46 +304,38 @@ paths:
                     nonce:
                       type:
                       - string
-                      - 'null'
                       description: Nonce used to generate the token
                     accessToken:
                       type:
                       - string
-                      - 'null'
                       description: Access token from the provider
                     refreshToken:
                       type:
                       - string
-                      - 'null'
                       description: Refresh token from the provider
                     expiresAt:
                       type:
                       - number
-                      - 'null'
                       description: Expiry date of the token
                   required:
                   - token
                 scopes:
                   type:
                   - array
-                  - 'null'
                   description: Array of scopes to request from the provider. This
                     will override the default scopes passed.
                 requestSignUp:
                   type:
                   - boolean
-                  - 'null'
                   description: Explicitly request sign-up. Useful when disableImplicitSignUp
                     is true for this provider
                 loginHint:
                   type:
                   - string
-                  - 'null'
                   description: The login hint to use for the authorization code request
                 additionalData:
                   type:
                   - string
-                  - 'null'
               required:
               - provider
       responses:
@@ -369,8 +356,7 @@ paths:
                     type: string
                   redirect:
                     type: boolean
-                    enum:
-                    - false
+                    default: false
                 required:
                 - redirect
                 - token
@@ -796,12 +782,10 @@ paths:
                 callbackURL:
                   type:
                   - string
-                  - 'null'
                   description: Callback URL to use as a redirect for email verification
                 rememberMe:
                   type:
                   - string
-                  - 'null'
               required:
               - email
               - password
@@ -816,8 +800,7 @@ paths:
                 properties:
                   redirect:
                     type: boolean
-                    enum:
-                    - false
+                    default: false
                   token:
                     type: string
                     description: Session token
@@ -915,7 +898,6 @@ paths:
                 token:
                   type:
                   - string
-                  - 'null'
                   description: The token to reset the password
               required:
               - newPassword
@@ -1211,7 +1193,6 @@ paths:
                 callbackURL:
                   type:
                   - string
-                  - 'null'
                   description: The URL to redirect to after email verification
               required:
               - newEmail
@@ -1231,9 +1212,6 @@ paths:
                     description: Indicates if the request was successful
                   message:
                     type: string
-                    enum:
-                    - Email updated
-                    - Verification email sent
                     description: Status message of the email change process
                     nullable: true
                 required:
@@ -1334,7 +1312,6 @@ paths:
                 revokeOtherSessions:
                   type:
                   - boolean
-                  - 'null'
                   description: Must be a boolean value
               required:
               - newPassword
@@ -1583,9 +1560,6 @@ paths:
                     description: Indicates if the operation was successful
                   message:
                     type: string
-                    enum:
-                    - User deleted
-                    - Verification email sent
                     description: Status message of the deletion process
                 required:
                 - success
@@ -1675,7 +1649,6 @@ paths:
                 redirectTo:
                   type:
                   - string
-                  - 'null'
                   description: The URL to redirect the user to reset their password.
                     If the token isn't valid or expired, it'll be redirected with
                     a query parameter `?error=INVALID_TOKEN`. If the token is valid,
@@ -2220,60 +2193,49 @@ paths:
                 callbackURL:
                   type:
                   - string
-                  - 'null'
                   description: The URL to redirect to after the user has signed in
                 provider:
                   type: string
                 idToken:
                   type:
                   - object
-                  - 'null'
                   properties:
                     token:
                       type: string
                     nonce:
                       type:
                       - string
-                      - 'null'
                     accessToken:
                       type:
                       - string
-                      - 'null'
                     refreshToken:
                       type:
                       - string
-                      - 'null'
                     scopes:
                       type:
                       - array
-                      - 'null'
                   required:
                   - token
                 requestSignUp:
                   type:
                   - boolean
-                  - 'null'
                 scopes:
                   type:
                   - array
-                  - 'null'
                   description: Additional scopes to request from the provider
                 errorCallbackURL:
                   type:
                   - string
-                  - 'null'
                   description: The URL to redirect to if there is an error during
                     the link process
                 disableRedirect:
                   type:
                   - boolean
-                  - 'null'
                   description: Disable automatic redirection to the provider. Useful
                     for handling the redirection yourself
                 additionalData:
                   type:
                   - string
-                  - 'null'
               required:
               - provider
       responses:
@@ -2482,7 +2444,6 @@ paths:
         schema:
           type:
           - string
-          - 'null'
           description: The URL to redirect to after deletion
       responses:
         '200':
@@ -2497,8 +2458,6 @@ paths:
                     description: Indicates if the deletion was successful
                   message:
                     type: string
-                    enum:
-                    - User deleted
                     description: Confirmation message
                 required:
                 - success
@@ -2585,7 +2544,6 @@ paths:
                 accountId:
                   type:
                   - string
-                  - 'null'
               required:
               - providerId
       responses:
@@ -2681,12 +2639,10 @@ paths:
                 accountId:
                   type:
                   - string
-                  - 'null'
                   description: The account ID associated with the refresh token
                 userId:
                   type:
                   - string
-                  - 'null'
                   description: The user ID associated with the account
               required:
               - providerId
@@ -2785,12 +2741,10 @@ paths:
                 accountId:
                   type:
                   - string
-                  - 'null'
                   description: The account ID associated with the refresh token
                 userId:
                   type:
                   - string
-                  - 'null'
                   description: The user ID associated with the account
               required:
               - providerId
@@ -3155,24 +3109,20 @@ paths:
                 userId:
                   type:
                   - string
-                  - 'null'
                   description: 'The user id of the organization creator. If not provided,
                     the current user will be used. Should only be used by admins or
                     when called by the server. server-only. Eg: "user-id"'
                 logo:
                   type:
                   - string
-                  - 'null'
                   description: The logo of the organization
                 metadata:
                   type:
                   - string
-                  - 'null'
                   description: The metadata of the organization
                 keepCurrentActiveOrganization:
                   type:
                   - boolean
-                  - 'null'
                   description: 'Whether to keep the current active organization active
                     after creating a new one. Eg: true'
               required:
@@ -3270,27 +3220,22 @@ paths:
                     name:
                       type:
                       - string
-                      - 'null'
                       description: The name of the organization
                     slug:
                       type:
                       - string
-                      - 'null'
                       description: The slug of the organization
                     logo:
                       type:
                       - string
-                      - 'null'
                       description: The logo of the organization
                     metadata:
                       type:
                       - string
-                      - 'null'
                       description: The metadata of the organization
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: 'The organization ID. Eg: "org-id"'
               required:
               - data
@@ -3474,11 +3419,9 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                 organizationSlug:
                   type:
                   - string
-                  - 'null'
                   description: 'The organization slug to set as active. It can be
                     null to unset the active organization if organizationId is not
                     provided. Eg: "org-slug"'
@@ -3739,12 +3682,10 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: The organization ID to invite the user to
                 resend:
                   type:
                   - boolean
-                  - 'null'
                   description: 'Resend the invitation email, if the user is already
                     invited. Eg: true'
                 teamId:
@@ -4497,7 +4438,6 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: 'The ID of the organization to remove the member from.
                     If not provided, the active organization will be used. Eg: "org-id"'
               required:
@@ -4616,7 +4556,6 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: 'An optional organization ID which the member is a
                     part of to apply the role update. If not provided, you must provide
                     session headers to get the active organization. Eg: "organization-id"'
@@ -5067,7 +5006,6 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: 'The organization ID which the team will be created
                     in. Defaults to the active organization. Eg: "organization-id"'
               required:
@@ -5290,7 +5228,6 @@ paths:
                 organizationId:
                   type:
                   - string
-                  - 'null'
                   description: 'The organization ID which the team falls under. If
                     not provided, it will default to the user''s active organization.
                     Eg: "organization-id"'
@@ -5307,8 +5244,6 @@ paths:
                   message:
                     type: string
                     description: Confirmation message indicating successful removal
-                    enum:
-                    - Team removed successfully.
                 required:
                 - message
         '400':
@@ -5397,23 +5332,18 @@ paths:
                     id:
                       type:
                       - string
-                      - 'null'
                     name:
                       type:
                       - string
-                      - 'null'
                     organizationId:
                       type:
                       - string
-                      - 'null'
                     createdAt:
                       type:
                       - string
-                      - 'null'
                     updatedAt:
                       type:
                       - string
-                      - 'null'
               required:
               - teamId
               - data
@@ -5528,7 +5458,6 @@ paths:
                 teamId:
                   type:
                   - string
-                  - 'null'
               required: []
       responses:
         '200':
@@ -5932,8 +5861,6 @@ paths:
                   message:
                     type: string
                     description: Confirmation message indicating successful removal
-                    enum:
-                    - Team member removed successfully.
                 required:
                 - message
         '400':
