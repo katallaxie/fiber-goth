@@ -1,6 +1,6 @@
 module github.com/katallaxie/fiber-goth
 
-go 1.25.0
+go 1.26
 
 tool (
 	github.com/air-verse/air
@@ -12,7 +12,7 @@ tool (
 )
 
 require (
-	github.com/getkin/kin-openapi v0.135.0
+	github.com/getkin/kin-openapi v0.136.0
 	github.com/gofiber/fiber/v2 v2.52.12
 	github.com/gofiber/fiber/v3 v3.1.0
 	github.com/google/go-github/v56 v56.0.0
@@ -186,7 +186,7 @@ require (
 	github.com/nunnatsa/ginkgolinter v0.19.1 // indirect
 	github.com/oapi-codegen/oapi-codegen/v2 v2.5.1 // indirect
 	github.com/oasdiff/yaml v0.0.9 // indirect
-	github.com/oasdiff/yaml3 v0.0.9 // indirect
+	github.com/oasdiff/yaml3 v0.0.12 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
