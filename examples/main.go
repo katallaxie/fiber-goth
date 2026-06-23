@@ -12,6 +12,7 @@ import (
 	gorm_adapter "github.com/katallaxie/fiber-goth/v3/adapters/gorm"
 	"github.com/katallaxie/fiber-goth/v3/csrf"
 	"github.com/katallaxie/fiber-goth/v3/providers"
+	"github.com/katallaxie/fiber-goth/v3/providers/dex"
 	"github.com/katallaxie/fiber-goth/v3/providers/entraid"
 	"github.com/katallaxie/fiber-goth/v3/providers/github"
 
@@ -94,12 +95,14 @@ func run(_ context.Context) error {
 
 	ga := gorm_adapter.New(conn)
 
-	providers.RegisterProvider(github.New(os.Getenv("GITHUB_CLIENT_ID"), os.Getenv("GITHUB_SECRET"), "http://localhost:3000/auth/github/callback"))
-	providers.RegisterProvider(entraid.New(os.Getenv("ENTRAID_CLIENT_ID"), os.Getenv("ENTRAID_CLIENT_SECRET"), "http://localhost:3000/auth/entraid/callback", entraid.TenantType(os.Getenv("ENTRAID_TENANT_ID"))))
+	providers.RegisterProvider(github.New(os.Getenv("GITHUB_CLIENT_ID"), os.Getenv("GITHUB_SECRET"), "http://127.0.0.1:3000/auth/github/callback"))
+	providers.RegisterProvider(entraid.New(os.Getenv("ENTRAID_CLIENT_ID"), os.Getenv("ENTRAID_CLIENT_SECRET"), "http://127.0.0.1:3000/auth/entraid/callback", entraid.TenantType(os.Getenv("ENTRAID_TENANT_ID"))))
+	providers.RegisterProvider(dex.New(os.Getenv("DEX_CLIENT_ID"), os.Getenv("DEX_CLIENT_SECRET"), os.Getenv("DEX_ISSUER"), "http://127.0.0.1:3000/auth/dex/callback"))
 
 	m := map[string]string{
 		"entraid": "EntraID",
 		"github":  "Github",
+		"dex":     "Dex",
 	}
 	keys := make([]string, 0, len(m))
 	for k := range m {

@@ -18,6 +18,7 @@ $ go get github.com/katallaxie/fiber-goth/v3
 
 * GitHub (github.com, Enterprise, and Enterprise Cloud)
 * Microsoft Entra ID
+* [Dex](https://dexidp.io)
 
 ## CSRF
 
