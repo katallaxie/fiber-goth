@@ -288,6 +288,7 @@ func (CompleteAuthCompleteHandler) New(cfg Config) fiber.Handler {
 		cookieValue.SetValueBytes([]byte(session.SessionToken))
 		cookieValue.SetHTTPOnly(true)
 		cookieValue.SetSameSite(fasthttp.CookieSameSiteLaxMode)
+		cookieValue.SetSecure(cfg.CookieSecure)
 		cookieValue.SetExpire(expires)
 		cookieValue.SetPath("/")
 
@@ -399,6 +400,7 @@ func NewProtectMiddleware(config ...Config) fiber.Handler {
 		cookieValue.SetSameSite(cfg.CookieSameSite)
 		cookieValue.SetExpire(expires)
 		cookieValue.SetPath(cfg.CookiePath)
+		cookieValue.SetSecure(cfg.CookieSecure)
 
 		c.Response().Header.SetCookie(&cookieValue)
 
@@ -455,6 +457,7 @@ func NewProtectedHandler(handler fiber.Handler, config ...Config) fiber.Handler 
 		cookieValue.SetSameSite(cfg.CookieSameSite)
 		cookieValue.SetExpire(expires)
 		cookieValue.SetPath(cfg.CookiePath)
+		cookieValue.SetSecure(cfg.CookieSecure)
 
 		c.Response().Header.SetCookie(&cookieValue)
 
@@ -535,6 +538,9 @@ type Config struct {
 	// CookieHTTPOnly is the HTTPOnly attribute of the cookie.
 	CookieHTTPOnly bool
 
+	// CookieSecure is the Secure attribute of the cookie.
+	CookieSecure bool
+
 	// Encryptor is the function used to encrypt the session.
 	Encryptor func(decryptedString, key string) (string, error)
 
@@ -608,6 +614,7 @@ var ConfigDefault = Config{
 	LogoutURL:           "/logout",
 	CallbackURL:         "/auth",
 	CookiePrefix:        "fiber_goth",
+	CookieSecure:        false,
 	Environment:         Development,
 }
 
