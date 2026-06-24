@@ -1,11 +1,11 @@
 .DEFAULT_GOAL := build
 
 # Go variables
-GO 					?= go
-GO_RELEASER 		?= goreleaser
+GO 						?= go
+GO_RELEASER 	?= $(GO_TOOL) github.com/goreleaser/goreleaser
+GO_LINT 			?= $(GO_TOOL) github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 GO_TOOL 			?= $(GO) tool
 GO_TEST 			?= $(GO_TOOL) gotest.tools/gotestsum --format pkgname
-GO_AIR 				?= $(GO_TOOL) github.com/air-verse/air
 
 .PHONY: build
 build: ## Build the binary file.
@@ -19,6 +19,10 @@ generate: ## Generate code.
 mocks: ## Generate mocks.
 	$(GO_TOOL) github.com/vektra/mockery/v2
 
+.PHONY: dex
+dex: ## Generate mocks.
+	$(GO_TOOL) github.com/dexidp/dex/cmd/dex serve dex-dev.yml
+
 .PHONY: fmt
 fmt: ## Run go fmt against code.
 	$(GO_TOOL) mvdan.cc/gofumpt -w .
@@ -27,10 +31,6 @@ fmt: ## Run go fmt against code.
 vet: ## Run go vet against code.
 	$(GO) vet ./...
 
-.PHONY: start
-start: ## Start the application with live reload.
-	$(GO_AIR) -c .air.toml
-
 .PHONY: test
 test: fmt vet ## Run tests.
 	mkdir -p .test/reports
@@ -38,7 +38,11 @@ test: fmt vet ## Run tests.
 
 .PHONY: lint
 lint: ## Run lint.
-	$(GO_TOOL) github.com/golangci/golangci-lint/v2/cmd/golangci-lint run --timeout 5m -c .golangci.yml
+	$(GO_LINT) run --timeout 5m -c .golangci.yml
+
+.PHONY: fix
+fix: ## Run lint auto-fixes.
+	$(GO_LINT) run --fix --timeout 5m -c .golangci.yml
 
 .PHONY: clean
 clean: ## Remove previous build.
