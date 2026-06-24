@@ -3,14 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"html/template"
 	"log"
 	"os"
 	"sort"
 
 	goth "github.com/katallaxie/fiber-goth/v3"
 	gorm_adapter "github.com/katallaxie/fiber-goth/v3/adapters/gorm"
-	"github.com/katallaxie/fiber-goth/v3/csrf"
 	"github.com/katallaxie/fiber-goth/v3/providers"
 	"github.com/katallaxie/fiber-goth/v3/providers/dex"
 	"github.com/katallaxie/fiber-goth/v3/providers/entraid"
@@ -97,7 +95,7 @@ func run(_ context.Context) error {
 
 	providers.RegisterProvider(github.New(os.Getenv("GITHUB_CLIENT_ID"), os.Getenv("GITHUB_SECRET"), "http://127.0.0.1:3000/auth/github/callback"))
 	providers.RegisterProvider(entraid.New(os.Getenv("ENTRAID_CLIENT_ID"), os.Getenv("ENTRAID_CLIENT_SECRET"), "http://127.0.0.1:3000/auth/entraid/callback", entraid.TenantType(os.Getenv("ENTRAID_TENANT_ID"))))
-	providers.RegisterProvider(dex.New(os.Getenv("DEX_CLIENT_ID"), os.Getenv("DEX_CLIENT_SECRET"), os.Getenv("DEX_ISSUER"), "http://127.0.0.1:3000/auth/dex/callback"))
+	providers.RegisterProvider(dex.New(os.Getenv("DEX_CLIENT_ID"), os.Getenv("DEX_CLIENT_SECRET"), os.Getenv("DEX_ISSUER"), os.Getenv("DEX_REDIRECT_URL")))
 
 	m := map[string]string{
 		"entraid": "EntraID",
@@ -114,50 +112,29 @@ func run(_ context.Context) error {
 	app.Use(requestid.New())
 	app.Use(logger.New())
 
-	providerIndex := &ProviderIndex{Providers: keys, ProvidersMap: m}
-	engine := template.New("views")
-
-	t, err := engine.Parse(indexTemplate)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	gothConfig := goth.Config{
 		Adapter:        ga,
 		Secret:         goth.GenerateKey(),
 		CookieHTTPOnly: true,
+		CookieDomain:   os.Getenv("COOKIE_DOMAIN"),
+		LoginURL:       "/login/dex",
 	}
 
-	app.Use(goth.NewProtectMiddleware(gothConfig))
-
-	app.Get("/", func(c fiber.Ctx) error {
+	app.Use(goth.Session(gothConfig))
+	app.Get("/", goth.ProtectedHandler(func(c fiber.Ctx) error {
 		session, err := goth.SessionFromContext(c)
 		if err != nil {
 			return err
 		}
 
 		return c.JSON(session)
-	})
-
-	app.Get("/protected", func(c fiber.Ctx) error {
-		t, err := csrf.TokenFromContext(c)
-		if err != nil {
-			return err
-		}
-
-		return c.SendString(t)
-	})
-
-	app.Get("/login", func(c fiber.Ctx) error {
-		c.Set(fiber.HeaderContentType, fiber.MIMETextHTML)
-		return t.Execute(c.Response().BodyWriter(), providerIndex)
-	})
+	}, gothConfig))
 	app.Get("/session", goth.NewSessionHandler(gothConfig))
 	app.Get("/login/:provider", goth.NewBeginAuthHandler(gothConfig))
 	app.Get("/auth/:provider/callback", goth.NewCompleteAuthHandler(gothConfig))
 	app.Get("/logout", goth.NewLogoutHandler(gothConfig))
 
-	if err := app.Listen(":3000"); err != nil {
+	if err := app.Listen(cfg.Flags.Addr); err != nil {
 		return err
 	}
 
@@ -174,19 +151,3 @@ func main() {
 		panic(err)
 	}
 }
-
-var indexTemplate = `{{range $key,$value:=.Providers}}
-    <p><a href="/login/{{$value}}">Log in with {{index $.ProvidersMap $value}}</a></p>
-{{end}}
-<div class="container">
-  <form action="/login/credentials">
-    <label for="usrname">Username</label>
-    <input type="text" id="usrname" name="usrname" required>
-
-    <label for="psw">Password</label>
-    <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-
-    <input type="submit" value="Submit">
-  </form>
-</div>
-`

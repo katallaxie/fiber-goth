@@ -5,11 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/coreos/go-oidc/v3/oidc"
-	"github.com/google/go-github/v56/github"
 	"github.com/katallaxie/fiber-goth/v3/adapters"
 	"github.com/katallaxie/fiber-goth/v3/providers"
 
@@ -24,6 +22,7 @@ var (
 	ErrNoName                 = errors.New("goth: user has no display name set")
 	ErrAuthFailedParse        = errors.New("goth: failed to parse auth params, missing code or state")
 	ErrMissingIDToken         = errors.New("goth: missing id token")
+	ErrMissingVerifier        = errors.New("goth: missing verifier")
 )
 
 const NoopEmail = ""
@@ -135,19 +134,9 @@ func (g *dexProvider) BeginAuth(_ context.Context, _ adapters.Adapter, state str
 //
 //nolint:gocyclo
 func (g *dexProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter, params providers.AuthParams) (adapters.GothUser, error) {
-	u := struct {
-		ID       int    `json:"id"`
-		Email    string `json:"email"`
-		Bio      string `json:"bio"`
-		Name     string `json:"name"`
-		Login    string `json:"login"`
-		Picture  string `json:"avatar_url"`
-		Location string `json:"location"`
-	}{}
-
 	code := params.Get("code")
 	if code == "" {
-		return adapters.GothUser{}, adapters.ErrUnimplemented
+		return adapters.GothUser{}, ErrMissingVerifier
 	}
 
 	token, err := g.config.Exchange(ctx, code, oauth2.SetAuthURLParam("code_verifier", params.CodeVerifier()))
@@ -155,7 +144,6 @@ func (g *dexProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter
 		return adapters.GothUser{}, err
 	}
 
-	// Extract the ID Token from OAuth2 token.
 	rawIDToken, ok := token.Extra("id_token").(string)
 	if !ok {
 		return adapters.GothUser{}, ErrMissingIDToken
@@ -167,12 +155,9 @@ func (g *dexProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter
 	}
 
 	idTokenVerifier := provider.Verifier(&oidc.Config{ClientID: g.clientID})
-
-	// Parse and verify ID Token payload.
 	idToken, err := idTokenVerifier.Verify(ctx, rawIDToken)
 	if err != nil {
-		fmt.Println(err)
-		return adapters.GothUser{}, err
+		return adapters.GothUser{}, providers.ErrFailedVerifyToken
 	}
 
 	var claims struct {
@@ -190,29 +175,21 @@ func (g *dexProvider) CompleteAuth(ctx context.Context, adapter adapters.Adapter
 		Email: claims.Email,
 		Accounts: []adapters.GothAccount{
 			{
-				Type:              adapters.AccountTypeOAuth2,
-				Provider:          g.ID(),
-				ProviderAccountID: cast.Ptr(strconv.Itoa(u.ID)),
-				AccessToken:       cast.Ptr(token.AccessToken),
-				RefreshToken:      cast.Ptr(token.RefreshToken),
-				ExpiresAt:         cast.Ptr(token.Expiry),
-				IDToken:           cast.Ptr(rawIDToken),
+				Type:         adapters.AccountTypeOAuth2,
+				Provider:     g.ID(),
+				AccessToken:  cast.Ptr(token.AccessToken),
+				RefreshToken: cast.Ptr(token.RefreshToken),
+				ExpiresAt:    cast.Ptr(token.Expiry),
+				IDToken:      cast.Ptr(rawIDToken),
 			},
 		},
 	}
 
-	fmt.Println(user)
-
-	if utilx.Empty(user.Email) {
-		return user, ErrNoVerifiedPrimaryEmail
+	if utilx.Empty(user.Email) { // TODO: verification required
+		return adapters.GothUser{}, providers.ErrMissingPrimaryEmail
 	}
 
 	user, err = adapter.CreateUser(ctx, user)
-	if err != nil {
-		return adapters.GothUser{}, err
-	}
-
-	user, err = adapter.GetUser(ctx, user.ID)
 	if err != nil {
 		return adapters.GothUser{}, err
 	}
@@ -230,16 +207,6 @@ func newConfig(d *dexProvider, scopes ...string) *oauth2.Config {
 	}
 
 	return c
-}
-
-func checkEmail(emails ...*github.UserEmail) (string, error) {
-	for _, e := range emails {
-		if e.GetPrimary() && e.GetVerified() {
-			return cast.Value(e.Email), nil
-		}
-	}
-
-	return NoopEmail, ErrNoVerifiedPrimaryEmail
 }
 
 func dexConfig(url string) oauth2.Endpoint {

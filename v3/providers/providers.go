@@ -26,11 +26,16 @@ var DefaultClient = &http.Client{
 	Timeout: defaultTimeout,
 }
 
-// ErrUnimplemented is returned when a method is not implemented.
-var ErrUnimplemented = errors.New("not implemented")
-
-// ErrNoAuthURL is returned when an AuthURL has not been set.
-var ErrNoAuthURL = errors.New("an AuthURL has not been set")
+var (
+	// ErrUnimplemented is returned when a method is not implemented.
+	ErrUnimplemented = errors.New("not implemented")
+	// ErrNoAuthURL is returned when an AuthURL has not been set.
+	ErrNoAuthURL = errors.New("an AuthURL has not been set")
+	// ErrFailedVerifyToken is returned when a token verification fails.
+	ErrFailedVerifyToken = errors.New("failed to verify token")
+	// ErrMissingPrimaryEmail is returned when a primary email is not found.
+	ErrMissingPrimaryEmail = errors.New("missing primary email")
+)
 
 // Provider needs to be implemented for each 3rd party authentication provider.
 type Provider interface {

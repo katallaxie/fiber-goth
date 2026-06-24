@@ -88,19 +88,6 @@ func DecryptCookie(value, key string) (string, error) {
 	return string(plaintext), nil
 }
 
-// NewCodeVerifierCookie creates a new code verifier cookie.
-func NewCodeVerifierCookie(name, value string, secure bool) *fasthttp.Cookie {
-	c := &fasthttp.Cookie{}
-	c.SetKey(name)
-	c.SetValue(value)
-	c.SetPath("/")
-	c.SetMaxAge(300)
-	c.SetSecure(secure)
-	c.SetHTTPOnly(true)
-
-	return c
-}
-
 // NewStateCookie creates a new state cookie.
 func NewStateCookie(name, value string, secure bool) *fasthttp.Cookie {
 	c := &fasthttp.Cookie{}
