@@ -1,6 +1,6 @@
 module github.com/katallaxie/fiber-goth/v3
 
-go 1.26
+go 1.26.3
 
 require (
 	github.com/coreos/go-oidc/v3 v3.19.0
