@@ -9,24 +9,24 @@ require (
 	github.com/google/go-github/v56 v56.0.0
 	github.com/google/uuid v1.6.0
 	github.com/katallaxie/pkg v0.7.11
-	github.com/valyala/fasthttp v1.70.0
+	github.com/valyala/fasthttp v1.79.0
 	golang.org/x/crypto v0.59.0
 	golang.org/x/oauth2 v0.38.0
 	gorm.io/gorm v1.31.2
 )
 
 require (
-	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/gofiber/schema v1.7.1 // indirect
 	github.com/gofiber/utils/v2 v2.0.4 // indirect
 	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
-	github.com/klauspost/compress v1.18.6 // indirect
+	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.21 // indirect
 	github.com/mattn/go-sqlite3 v1.14.24 // indirect
+	github.com/molecule-man/go-brrr v1.3.1 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/stretchr/testify v1.12.1 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect

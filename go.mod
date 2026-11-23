@@ -22,7 +22,7 @@ require (
 	github.com/katallaxie/pkg v0.7.11
 	github.com/oapi-codegen/runtime v1.9.0
 	github.com/spf13/cobra v1.10.2
-	github.com/valyala/fasthttp v1.70.0
+	github.com/valyala/fasthttp v1.79.0
 	golang.org/x/crypto v0.59.0
 	golang.org/x/oauth2 v0.38.0
 	gorm.io/driver/postgres v1.6.0
@@ -102,7 +102,6 @@ require (
 	github.com/alingse/asasalint v0.0.11 // indirect
 	github.com/alingse/nilnesserr v0.2.0 // indirect
 	github.com/anchore/go-macholibre v0.0.0-20250826193721-3cd206ca93aa // indirect
-	github.com/andybalholm/brotli v1.2.1 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/ashanbrown/forbidigo/v2 v2.3.1 // indirect
@@ -350,7 +349,7 @@ require (
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/kisielk/errcheck v1.10.0 // indirect
 	github.com/kkHAIKE/contextcheck v1.1.6 // indirect
-	github.com/klauspost/compress v1.18.6 // indirect
+	github.com/klauspost/compress v1.20.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/kulti/thelper v0.7.1 // indirect
@@ -388,6 +387,7 @@ require (
 	github.com/moby/term v0.5.2 // indirect
 	github.com/modelcontextprotocol/registry v1.7.9 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
+	github.com/molecule-man/go-brrr v1.3.1 // indirect
 	github.com/moricho/tparallel v0.3.2 // indirect
 	github.com/mr-tron/base58 v1.2.0 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
