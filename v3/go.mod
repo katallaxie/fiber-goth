@@ -12,7 +12,7 @@ require (
 	github.com/valyala/fasthttp v1.70.0
 	golang.org/x/crypto v0.52.0
 	golang.org/x/oauth2 v0.38.0
-	gorm.io/gorm v1.31.1
+	gorm.io/gorm v1.31.2
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/klauspost/compress v1.18.6 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.21 // indirect
+	github.com/mattn/go-sqlite3 v1.14.24 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/stretchr/testify v1.12.1 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect
