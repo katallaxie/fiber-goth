@@ -14,7 +14,7 @@ tool (
 
 require (
 	github.com/getkin/kin-openapi v0.136.0
-	github.com/gofiber/fiber/v2 v2.52.13
+	github.com/gofiber/fiber/v2 v2.52.16
 	github.com/gofiber/fiber/v3 v3.2.0
 	github.com/google/go-github/v56 v56.0.0
 	github.com/google/uuid v1.6.0
