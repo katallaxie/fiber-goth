@@ -22,7 +22,7 @@ require (
 	github.com/katallaxie/pkg v0.7.11
 	github.com/oapi-codegen/runtime v1.9.1
 	github.com/spf13/cobra v1.10.2
-	github.com/valyala/fasthttp v1.79.0
+	github.com/valyala/fasthttp v1.80.0
 	golang.org/x/crypto v0.59.0
 	golang.org/x/oauth2 v0.38.0
 	gorm.io/driver/postgres v1.6.3
